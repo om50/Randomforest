@@ -1,0 +1,134 @@
+Assignment Questions
+Question 1: Reading and Exploring the Wine Dataset
+1. Read the wine dataset stored in from the location
+https://gist.github.com/tijptjik/9408623 and store it as a DataFrame.
+2. Assign appropriate column names to the dataset using the given attribute
+names.
+3. Print the first five rows of the DataFrame to examine the dataset.
+4. Display the statistical insights of the dataset using the describe() function.
+5. Visualize the distribution of the ’Alcohol’ attribute using a histogram.
+6. Visualize the distribution of the ’Ash’ attribute using a histogram.
+7. Visualize the distribution of the ’Class’ attribute using a histogram.
+8. Create pair plots to visualize the correlations between selected attributes.
+9. Generate a correlation matrix and visualize it using a heatmap.
+
+
+Question 2: Preparing the Data for Model Training
+1. Separate the independent variables (features) and the dependent variable
+(target) into two separate variables, X and y respectively.
+2. Split the dataset into training and testing sets with a test size of 33% and
+a random state of 42.
+
+Question 3: Building and Evaluating the Random Forest
+Classifier
+1. Create a RandomForestClassifier model.
+2. Fit the model to the training data.
+3. Predict the target variable using the fitted model.
+4. Print the accuracy score of the model.
+5. Print the confusion matrix to evaluate the performance of the model.
+
+
+Solution
+
+
+Question 1: Reading and Exploring the Wine Dataset
+1 import pandas a s pd
+2 import numpy a s np
+3 import m a t pl o tli b . p y pl o t a s p l t
+4 import se ab o rn a s s n s
+5 from s kl e a r n . m o d e l s e l e c t i o n import t r a i n t e s t s p l i t
+6 from s kl e a r n . m e t ri c s import c o n f u si o n m a t ri x
+7 from s kl e a r n . ensemble import R a n d omF o r e s tCl a s si fi e r
+8 from s kl e a r n . m e t ri c s import a c c u r a c y s c o r e
+9
+10 # Read t h e d a t a s e t
+11 d f = pd . r e a d c s v ( ’ / D a t a s e t s /RandomForests / wine . data ’ )
+12
+13 # A ss ign a t t r i b u t e names
+14 a t t r i b u t e s = [ ” Cl a s s ” , ” Al c o h ol ” , ”Malic a ci d ” , ”Ash” , ”
+A l c a l i n i t y o f ash ” , ”Magnesium” ,
+15 ” T o t al p h e n ol s ” , ” Fl a v a n oi d s ” , ”
+N on fl a v an oid p h e n ol s ” , ” P r o an th ocy anin s ”
+,
+16 ” C ol o r i n t e n s i t y ” , ”Hue” , ”OD280/OD315 o f 
+d i l u t e d wine s ” , ” P r oli n e ” ]
+17 d f . columns = a t t r i b u t e s
+18
+19 # P r i n t t h e f i r s t few rows o f t h e DataFrame
+20 p ri n t ( ” F i r s t few rows o f the DataFrame : ” )
+21 p ri n t ( d f . head ( ) )
+22
+23 # D i s pl ay s t a t i s t i c a l i n s i g h t s
+24 p ri n t ( ”\ n S t a t i s t i c a l i n s i g h t s o f the d a t a s e t : ” )
+25 p ri n t ( d f . d e s c r i b e ( ) )
+26
+27 # V i s u a l i z e ’ Al c o h ol ’ u s i n g a h i s t og r am
+28 d f . h i s t ( ’ Al c o h ol ’ )
+29 p l t . t i t l e ( ” Histogram f o r Al c o h ol ” )
+30 p l t . show ( )
+31
+32 # V i s u a l i z e ’ Ash ’ u s i n g a h i s t og r am
+33 d f . h i s t ( ’ Ash ’ )
+34 p l t . t i t l e ( ” Histogram f o r Ash” )
+35 p l t . show ( )
+36
+37 # V i s u a l i z e ’ Cl a s s ’ u s i n g a h i s t og r am
+38 d f . h i s t ( ’ Cl a s s ’ )
+39 p l t . t i t l e ( ” Histogram f o r Cl a s s ” )
+40 p l t . show ( )
+41
+42 # Crea te p a i r p l o t s
+43 d f n = d f [ [ ” Cl a s s ” , ” Al c o h ol ” , ”Malic a ci d ” , ” Fl a v a n oi d s ”
+, ” N on fl a v an oid p h e n ol s ” ,
+44 ” P r o an th ocy anin s ” , ” C ol o r i n t e n s i t y ” , ”Hue” , ”
+OD280/OD315 o f d i l u t e d wine s ” ,
+45 ” P r oli n e ” ] ]
+46 s n s . p a i r p l o t ( d f n , h ei g h t =4, kind=” r e g ” , markers=” . ” )
+47 p l t . show ( )
+48
+49 # Genera te a c o r r e l a t i o n m a t r ix and v i s u a l i z e i t u s i n g a
+heatmap
+50 c o r r = d f . c o r r ( )
+51 cmap = s n s . d i v e r g i n g p a l e t t e ( 2 2 0 , 1 0 , as cmap=True )
+52 s n s . heatmap ( c o r r , cmap=cmap , vmax=.3 , s q u a r e=True ,
+l i n e w i d t h s =6, cb a r kw s={” s h ri n k ” : . 5 } )
+53 p l t . show ( )
+54
+55 # D e t a i l e d c o r r e l a t i o n m a t r ix
+56 p l t . f i g u r e ( f i g s i z e = (12 ,12 ) )
+57 p l t . t i t l e ( ’ Pearson C o r r el a ti o n o f F e a t u r e s ’ , y =1.05 , s i z e
+=15)
+58 s n s . heatmap ( d f . c o r r ( ) , l i n e w i d t h s =0.1 , vmax=1.0 , s q u a r e=
+True , cmap=p l t . cm. v i r i d i s ,
+59 l i n e c o l o r=’ whi te ’ , annot=True )
+60 p l t . show ( )
+
+Question 2: Preparing the Data for Model Training
+1 # Se p a r a te f e a t u r e s and t a r g e t v a r i a b l e
+2 y = d f [ ’ Cl a s s ’ ]
+3 X = d f . drop ( columns=[ ’ Cl a s s ’ ] )
+4
+5 # S p l i t d a t a s e t i n t o t r a i n i n g and t e s t i n g s e t s
+6 X t r ain , X te s t , y t r ai n , y t e s t = t r a i n t e s t s p l i t (X, y ,
+t e s t s i z e =0.33 , r and om s t a te =42)
+
+Question 3: Building and Evaluating the Random Forest
+Classifier
+1 # Crea te R a n d omF o r e s tCl a s s i f i e r model
+2 c l a s s i f i e r = R a n d omF o r e s tCl a s si fi e r ( n j o b s =2,
+r and om s t a te =42)
+3
+4 # F i t t h e model t o t r a i n i n g d a t a
+5 c l a s s i f i e r . f i t ( X t r ain , y t r a i n )
+6
+7 # P r e d i c t t h e t a r g e t v a r i a b l e
+8 y p red = c l a s s i f i e r . p r e d i c t ( X t e s t )
+9
+10 # P r i n t t h e accu r acy s c o r e
+11 p ri n t ( ” Accuracy : ” , a c c u r a c y s c o r e ( y t e s t , y p red ) )
+12
+13 # P r i n t c o n f u s i o n m a t r ix
+14 p ri n t ( ”\ nCon fusion Matrix : ” )
+15 p ri n t ( c o n f u si o n m a t ri x ( y t e s t , y p red ) )
+
+
